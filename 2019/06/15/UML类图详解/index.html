@@ -159,7 +159,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190615154911104.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2019061515511639.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/201906151555224.png">
-<meta property="og:updated_time" content="2019-06-16T00:57:52.932Z">
+<meta property="og:updated_time" content="2019-06-16T08:55:28.908Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UML类图详解">
 <meta name="twitter:description" content="注明：本文画图工具为StarUML  一、概述1.1、类图介绍首先介绍下类图，定义一个Person类，如下： 123456789101112131415161718public class Person &amp;#123;   private String name;   private int age =1;   public String getName() &amp;#123;      return">
@@ -220,6 +220,10 @@
   </style>
 </noscript>
 
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
+  
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -580,7 +584,6 @@
 <h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><h6 id="1-1、类图介绍"><a href="#1-1、类图介绍" class="headerlink" title="1.1、类图介绍"></a>1.1、类图介绍</h6><p>首先介绍下类图，定义一个Person类，如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class Person &#123;</span><br><span class="line">   private String name;</span><br><span class="line">   private int age =1;</span><br><span class="line"></span><br><span class="line">   public String getName() &#123;</span><br><span class="line">      return name;</span><br><span class="line">   &#125;</span><br><span class="line">   public int getAge() &#123;</span><br><span class="line">      return age;</span><br><span class="line">   &#125;</span><br><span class="line">   public void setName(String name) &#123;</span><br><span class="line">      this.name=name;</span><br><span class="line">   &#125;</span><br><span class="line">   public void setAge(int age) &#123;</span><br><span class="line">      this.age=age;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<a id="more"></a>
 <p>定义了两个字段name和age，其中age有一个初始化值1，另外定义name和age的set、get方法。然后我们来看下这个类在UML类图中是如何表示的：<br><img src="https://img-blog.csdnimg.cn/20190615152854303.png" alt="在这里插入图片描述"><br>可以看到我们画了一个矩形，然后从上到下分割成三格，第一格为类名，第二格为类中字段属性，这里属性的表达也是有一定格式的，如下：</p>
 <blockquote>
 <p> 权限 属性名：类型 [ = 默认值 ]</p>
@@ -624,6 +627,10 @@
 
 
     
+      
+
+
+    
 
     
     
@@ -637,7 +644,7 @@
     
       <div>
         <div id="reward-container">
-  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <div>加个鸡腿</div>
   <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
     打赏
   </button>
@@ -712,6 +719,22 @@
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/16/Centos7中安装和配置Mysql5.7/" rel="prev" title="Centos7中安装和配置Mysql5.7">
+                Centos7中安装和配置Mysql5.7 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
 
       
       
@@ -780,7 +803,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -799,7 +822,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">1</span>
+                      
+                    
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -818,7 +843,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">1</span>
+                      
+                    
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -924,7 +951,7 @@
         <!--网页底部copyright部分-->
 <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">和光同其尘</span>
 
@@ -975,7 +1002,7 @@ setInterval("createtime()",250);
   
    <span class="site-uv" title="总访客量">
       <i class="fa fa-user"></i>
-      网站总访客数 <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人次
+      访问人数 <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人次
     </span>
   
 
@@ -1540,3 +1567,4 @@ setInterval("createtime()",250);
 
 </body>
 </html>
+
