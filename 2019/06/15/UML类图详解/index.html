@@ -8,7 +8,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta name="apple-mobile-web-app-capable" content="和光同其尘的博客">
+    <meta name="apple-mobile-web-app-capable" content="和光同其尘的个人博客 | 分享spring微服务相关知识">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no,email=no,adress=no">
     <meta name="browsermode" content="application">
@@ -33,10 +33,10 @@
     <!--Title-->
 
 
-<title>UML类图详解 | 和光同其尘的博客</title>
+<title>UML类图详解 | 和光同其尘的个人博客 | 分享spring微服务相关知识</title>
 
 
-    <link rel="alternate" href="/atom.xml" title="和光同其尘的博客" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="和光同其尘的个人博客 | 分享spring微服务相关知识" type="application/atom+xml">
 
 
     <link rel="icon" href="/favicon.ico">
@@ -55,16 +55,6 @@
     
 
 
-
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-            var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?13766878cde148282622871dd245a973";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
 
 
 
@@ -110,7 +100,7 @@
 								 <span class="icon-bar"></span>
 							</button>
 							<a class="logo" href="/">
-								<img src="/img/favicon.jpg">和光同其尘的博客
+								<img src="/img/favicon.jpg">和光同其尘 | 个人博客
 							 </a>
 							
 					</div>
@@ -118,19 +108,15 @@
 						<ul class="nav navbar-nav">
 							
 								<li>
-									<a href="/"><i class="fa fa-home"></i>首页</a>
+									<a href="/"><i class="fa "></i>首页</a>
 								</li>
 							
 								<li>
-									<a href="/categories"><i class="fa fa-list"></i>分类</a>
+									<a href="/archives"><i class="fa "></i>归档</a>
 								</li>
 							
 								<li>
-									<a href="/about"><i class="fa fa-user"></i>关于我</a>
-								</li>
-							
-								<li>
-									<a href="/archives"><i class="fa fa-archive"></i>归档</a>
+									<a href="/about"><i class="fa "></i>关于</a>
 								</li>
 							
 						</ul>
@@ -140,12 +126,6 @@
         </div>
     </div>
 </nav>
-
-<div class="forkMeOnGithub">
-<a href="http://github.com/zhanyu1" target="_blank">
-    <img style="position: absolute; top: 0; left: 0; border: 0;" src="/img/forkme.png" alt="Fork me on GitHub">
-</a>
-</div>
 
     <section class="content-wrap">
         <div class="container">
@@ -282,11 +262,6 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2019/06/16/Centos7中安装和配置Mysql5.7/" class="pre-post btn btn-default" title="Centos7中安装和配置Mysql5.7">
-            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">Centos7中安装和配置Mysql5.7</span>
-        </a>
-    
     
 </div>
 
@@ -295,7 +270,7 @@
         
     
     <div id="vcomments" class="valine"></div>
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="https://dp2px.com/demo/av-min.js"></script>
 <script src="/assets/valine.min.js"></script>
 
     <script>
@@ -307,7 +282,7 @@
             placeholder: '欢迎交流讨论...',
             notify: false,
             verify: false,
-            avatar: 'mm',
+            avatar: 'wavatar',
             meta: 'nick,mail'.split(','),
             pageSize: '10',
             path: window.location.pathname,
@@ -331,6 +306,34 @@
             <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、概述"><span class="toc-text">一、概述</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-1、类图介绍"><span class="toc-text">1.1、类图介绍</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-2、类与类之间的关系"><span class="toc-text">1.2、类与类之间的关系</span></a></li></ol></li></ol><li class="toc-item toc-level-4"><a class="toc-link" href="#二、类关系详解"><span class="toc-text">二、类关系详解</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#2-1、泛化"><span class="toc-text">2.1、泛化</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-2、实现"><span class="toc-text">2.2、实现</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-3、依赖"><span class="toc-text">2.3、依赖</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-4、关联"><span class="toc-text">2.4、关联</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-5、聚合"><span class="toc-text">2.5、聚合</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-6、组合"><span class="toc-text">2.6、组合</span></a></li></ol></li>
         
     </div>
+	
+    <div class="widget">
+        <h3 class="title">搜索</h3>
+        <div id="search-form">
+            <div id="result-mask" class="hide"></div>
+            <div class="search-area">
+                
+                    <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢？">
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
+                
+                
+            </div>
+            <div id="result-wrap" class="hide">
+                <div id="search-result"></div>
+            </div>
+            <div class="hide">
+                <template id="search-tpl">
+                    <div class="item">
+                        <a href="/{path}" title="{title}">
+                            <div class="title">{title}</div>
+                            <div class="content">{content}</div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
 </aside>
 
                 
