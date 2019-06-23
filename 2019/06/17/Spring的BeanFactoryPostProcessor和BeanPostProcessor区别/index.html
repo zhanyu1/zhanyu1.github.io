@@ -1,0 +1,491 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="和光同其尘个人博客 - 一个爱分享Java技术的个人博客网站">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://zhanyu1.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content="Spring,">
+
+
+    <meta name="description" content="BeanFactoryPostProcessor：BeanFactory后置处理器，是对BeanDefinition对象进行修改。（BeanDefinition：存储bean标签的信息，用来生成bean实例）BeanPostProcessor：Bean后置处理器，是对生成的Bean对象进行修改...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+
+<title>Spring的BeanFactoryPostProcessor和BeanPostProcessor区别 | 和光同其尘个人博客 - 一个爱分享Java技术的个人博客网站</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="和光同其尘个人博客 - 一个爱分享Java技术的个人博客网站" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+
+
+    
+
+	
+	<style>
+	  .forkMeOnGithub{
+	  display: none;
+	  }
+	  @media (min-width: 768px) {
+	  .forkMeOnGithub{
+	   display: inline;
+	   }
+	  }
+  </style>
+	
+	
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+				<nav class="navbar navbar-default" style="background-color:#fff;border:0;margin-bottom:0" role="navigation">
+					<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-menu" id="mnav">
+								<span class="sr-only">切</span>
+								 <span class="icon-bar"></span>
+								 <span class="icon-bar"></span>
+								 <span class="icon-bar"></span>
+							</button>
+							<a class="logo" href="/">
+								<img src="/img/favicon.jpg">和光同其尘 | 个人博客
+							 </a>
+							
+					</div>
+					<div class="collapse navbar-collapse" style="border:0;" id="main-menu">
+						<ul class="nav navbar-nav">
+							
+								<li>
+									<a href="/"><i class="fa "></i>首页</a>
+								</li>
+							
+								<li>
+									<a href="/archives"><i class="fa "></i>归档</a>
+								</li>
+							
+								<li>
+									<a href="http://www.javaxz.com/"><i class="fa "></i>资源下载</a>
+								</li>
+							
+								<li>
+									<a href="/about"><i class="fa "></i>关于</a>
+								</li>
+							
+						</ul>
+					</div>
+				</nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Spring的BeanFactoryPostProcessor和BeanPostProcessor区别">
+            
+                Spring的BeanFactoryPostProcessor和BeanPostProcessor区别
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/Spring">
+            Spring
+        </a>
+    </span>
+    
+
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+                    <a href="/tags/Spring" title="Spring">
+                        Spring
+                    </a>
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/06/17</span>
+        </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    
+</div>
+
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <p>BeanFactoryPostProcessor：BeanFactory后置处理器，是对BeanDefinition对象进行修改。（BeanDefinition：存储bean标签的信息，用来生成bean实例）<br>BeanPostProcessor：Bean后置处理器，是对生成的Bean对象进行修改。</p>
+<h2 id="一、BeanFactoryPostProcessor"><a href="#一、BeanFactoryPostProcessor" class="headerlink" title="一、BeanFactoryPostProcessor"></a>一、BeanFactoryPostProcessor</h2><p>该接口源码如下：</p>
+<pre name="code" class="java">public interface BeanFactoryPostProcessor {
+
+    //可以通过beanFactory获取bean定义信息
+    void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException;
+
+}</pre>
+<p>BeanFactoryPostProcessor接口是针对bean容器的，它的实现类可以在当前BeanFactory初始化（spring容器加载bean定义文件）后，bean实例化之前修改bean的定义属性，达到影响之后实例化bean的效果。<br>也就是说，Spring允许BeanFactoryPostProcessor在容器实例化任何其它bean之前读取配置元数据，并可以根据需要进行修改，例如可以把bean的scope从singleton改为prototype，也可以把property的值给修改掉。可以同时配置多个BeanFactoryPostProcessor，并通过设置’order’属性来控制各个BeanFactoryPostProcessor的执行次序。<br>spring中内置了一些BeanFactoryPostProcessor接口实现类，如下所示：<br><img src="https://img-blog.csdn.net/20181017173536721?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poYW55dTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"></p>
+<h2 id="二、BeanPostProcessor"><a href="#二、BeanPostProcessor" class="headerlink" title="二、BeanPostProcessor"></a>二、BeanPostProcessor</h2><p>该方法的源码如下：</p>
+<pre name="code" class="java">public interface BeanPostProcessor {
+
+     //bean初始化之前调用
+    @Nullable
+    default Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
+    }
+    //bean初始化之后调用
+    @Nullable
+    default Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
+    }
+}</pre>
+<p>BeanPostProcessor能在spring容器实例化bean之后，在执行bean的初始化方法前后，添加一些自己的处理逻辑。初始化方法包括以下两种：</p>
+<p>1、实现InitializingBean接口的bean，对应方法为afterPropertiesSet<br>2、xml定义中，通过init-method设置的方法</p>
+<p>BeanPostProcessor是BeanFactoryPostProcessor之后执行的。<br>spring中内置了一些BeanPostProcessor接口实现类，如下所示：<br><img src="https://img-blog.csdn.net/20181017174738376?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poYW55dTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"><br>如果自定义了多个的BeanPostProcessor的实现类，通过实现Ordered接口，设置order属性，可以按照顺序执行实现类的方法。</p>
+<h2 id="三、例子"><a href="#三、例子" class="headerlink" title="三、例子"></a>三、例子</h2><p>（链接：<a href="https://blog.csdn.net/caihaijiang/article/details/35552859）" target="_blank" rel="noopener">https://blog.csdn.net/caihaijiang/article/details/35552859）</a><br>1、bean的定义</p>
+<pre name="code" class="java">public class CustomBean implements InitializingBean {
+    private String desc;
+    private String remark;
+
+    public CustomBean() {
+        System.out.println("第二步：执行CustomBean类的无参构造函数");
+    }
+    public String getDesc() {
+        return desc;
+    }
+    public void setDesc(String desc) {
+        System.out.println("第三步：调用setDesc方法");
+        this.desc = desc;
+    }
+    public String getRemark() {
+        return remark;
+    }
+    public void setRemark(String remark) {
+        System.out.println("第四步：调用setRemark方法");
+        this.remark = remark;
+    }
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("第六步：调用afterPropertiesSet方法");
+        this.desc = "在初始化方法中修改之后的描述信息";
+    }
+    public void initMethod() {
+        System.out.println("第七步：调用initMethod方法");
+    }
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[描述：").append(desc);
+        builder.append("， 备注：").append(remark).append("]");
+        return builder.toString();
+    }
+}</pre>
+<p>2、定义BeanFactoryPostProcessor</p>
+<pre name="code" class="java">public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
+
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        System.out.println("第一步：调用MyBeanFactoryPostProcessor的postProcessBeanFactory");
+        BeanDefinition bd = beanFactory.getBeanDefinition("customBean");
+        MutablePropertyValues pv =  bd.getPropertyValues();
+        if (pv.contains("remark")) {
+            pv.addPropertyValue("remark", "在BeanFactoryPostProcessor中修改之后的备忘信息");
+        }
+    }
+
+}</pre>
+<p>3、定义BeanPostProcessor</p>
+<pre name="code" class="java">public class MyBeanPostProcessor implements BeanPostProcessor {
+
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println("第五步：BeanPostProcessor，对象" + beanName + "调用初始化方法之前的数据： " + bean.toString());
+        return bean;
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println("第八步：BeanPostProcessor，对象" + beanName + "调用初始化方法之后的数据：" + bean.toString());
+        return bean;
+    }
+}</pre>
+<p>4、定义测试类</p>
+<pre name="code" class="java">public class PostProcessorTest {
+        public static void main(String[] args) {
+            ApplicationContext context = new ClassPathXmlApplicationContext("spring/postprocessor.xml");
+            CustomBean bean = (CustomBean) context.getBean("customBean");
+            System.out.println("################ 实例化、初始化bean完成");
+            System.out.println("****************下面输出结果");
+            System.out.println("描述：" + bean.getDesc());
+            System.out.println("备注：" + bean.getRemark());
+
+        }
+}</pre>
+<p>运行结果如下：</p>
+<pre name="code" class="java">第一步：调用MyBeanFactoryPostProcessor的postProcessBeanFactory
+第二步：执行CustomBean类的无参构造函数
+第三步：调用setDesc方法
+第四步：调用setRemark方法
+第五步：BeanPostProcessor，对象customBean调用初始化方法之前的数据： [描述：原始的描述信息， 备注：在BeanFactoryPostProcessor中修改之后的备忘信息]
+第六步：调用afterPropertiesSet方法
+第七步：调用initMethod方法
+第八步：BeanPostProcessor，对象customBean调用初始化方法之后的数据：[描述：在初始化方法中修改之后的描述信息， 备注：在BeanFactoryPostProcessor中修改之后的备忘信息]
+################ 实例化、初始化bean完成
+****************下面输出结果
+描述：在初始化方法中修改之后的描述信息
+备注：在BeanFactoryPostProcessor中修改之后的备忘信息
+
+*************************************************************************
+分析以上结果：在bean实例化之前，首先执行BeanFactoryPostProcessor实现类的方法，然后通过调用bean的无参构造函数实例化bean，并调用set方法注入属性值。bean实例化后，执行初始化操作，调用两个初始化方法（两个初始化方法的顺序：先执行afterPropertiesSet，再执行init-method）前后，执行了BeanPostProcessor实现类的两个方法。
+
+<pre>
+</pre></pre>
+    </div>
+    
+        <div class="reward">
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+                <span class="reward-type">
+                    <img class="alipay" src="/img/zfb.png"><b>支付宝打赏</b>
+                </span>
+            
+            
+                <span class="reward-type">
+                    <img class="wechat" src="/img/wx.png"><b>微信打赏</b>
+                </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip"></p>
+</div>
+
+
+    
+    <div class="post-footer">
+        <div class="col-sm-10">
+            <div>
+                <b>本文链接</b>：<a href="/2019/06/17/Spring的BeanFactoryPostProcessor和BeanPostProcessor区别/">Spring的BeanFactoryPostProcessor和BeanPostProcessor区别</a>
+            </div>
+            <div>
+                
+                    转载声明：本博客由和光同其尘创作，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank"> CC BY 3.0 CN </a> 许可协议。可自由转载、引用，但需署名作者且注明文章出处。如转载至微信公众号，请在文末添加作者公众号二维码。
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <img src="/img/wechat.png" width="100%/">
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2019/06/15/UML类图详解/" class="next-post btn btn-default" title="UML类图详解">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">UML类图详解</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+    
+    <div id="vcomments" class="valine"></div>
+    <script src="https://dp2px.com/demo/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'yxKxFYmVImtR3Nahr9B99CgK-gzGzoHsz',
+            appKey: 'ocsevxzlhvTRYac5nQh7giJ4',
+            placeholder: '欢迎交流讨论...',
+            notify: false,
+            verify: false,
+            avatar: 'wavatar',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、BeanFactoryPostProcessor"><span class="toc-text">一、BeanFactoryPostProcessor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、BeanPostProcessor"><span class="toc-text">二、BeanPostProcessor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、例子"><span class="toc-text">三、例子</span></a></li></ol>
+        
+    </div>
+	
+    <div class="widget">
+        <h3 class="title">搜索</h3>
+        <div id="search-form">
+            <div id="result-mask" class="hide"></div>
+            <div class="search-area">
+                
+                    <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢？">
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
+                
+                
+            </div>
+            <div id="result-wrap" class="hide">
+                <div id="search-result"></div>
+            </div>
+            <div class="hide">
+                <template id="search-tpl">
+                    <div class="item">
+                        <a href="/{path}" title="{title}">
+                            <div class="title">{title}</div>
+                            <div class="content">{content}</div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2019
+                </span> |
+                <span>
+                    Powered by <a href="https://zhanyu1.github.io" class="copyright-links" target="_blank">和光同其尘</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>
